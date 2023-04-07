@@ -161,12 +161,23 @@ function init() {
     store.reset()
     view.clearMoves()
     view.setTurnIndicator(store.game.currentPlayer)
-    console.log(store.stats)
+    view.updateScoreboard(
+      store.stats.playerWithStats[0].wins,
+      store.stats.playerWithStats[1].wins,
+      store.stats.ties,
+    )
   })
 
   view.bindNewRoundEvent(event => {
-    console.log('New round event')
-    console.log(event)
+    store.newRound()
+    view.closeAll()
+    view.clearMoves()
+    view.setTurnIndicator(store.game.currentPlayer)
+    view.updateScoreboard(
+      store.stats.playerWithStats[0].wins,
+      store.stats.playerWithStats[1].wins,
+      store.stats.ties,
+    )
   })
 
   view.bindPlayerMoveEvent(square => {

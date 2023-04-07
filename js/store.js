@@ -14,7 +14,23 @@ export default class Store {
   }
 
   get stats() {
-    console.log(this.#getState)
+    const state = this.#getState()
+
+    return {
+      playerWithStats: this.players.map(player => {
+        const wins = state.history.currentRoundGames.filter(game =>
+          game.status.winner?.id === player.id
+        ).length
+
+        return {
+          ...player,
+          wins
+        }
+      }),
+      ties: state.history.currentRoundGames.filter(
+        game => game.status.winner === null
+      ).length
+    }
   }
 
   get game() {
@@ -80,6 +96,15 @@ export default class Store {
     }
 
     stateClone.currentGameMoves = []
+    this.#saveState(stateClone)
+  }
+
+  newRound() {
+    this.reset()
+
+    const stateClone = structuredClone(this.#getState())
+    stateClone.history.allGames.push(...stateClone.history.currentRoundGames)
+    stateClone.history.currentRoundGames = []
     this.#saveState(stateClone)
   }
 
