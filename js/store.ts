@@ -1,4 +1,19 @@
-const initialValue = {
+import type { Player, GameState, GameStatus, Move } from "./types"
+
+type PlayerWithWins = Player & { wins: number }
+
+export type DerivedStats = {
+  playerWithStats: PlayerWithWins[]
+  ties: number
+}
+
+export type DerivedGame = {
+  moves: Move[]
+  currentPlayer: Player
+  status: GameStatus
+}
+
+const initialValue: GameState = {
   currentGameMoves: [],
   history: {
     currentRoundGames: [],
@@ -7,13 +22,14 @@ const initialValue = {
 }
 
 export default class Store extends EventTarget {
-  constructor(key, players) {
+  constructor(
+    private readonly storageKey: string,
+    private readonly players: Player[]
+  ) {
     super()
-    this.storageKey = key
-    this.players = players
   }
 
-  get stats() {
+  get stats(): DerivedStats {
     const state = this.#getState()
 
     return {
@@ -33,7 +49,7 @@ export default class Store extends EventTarget {
     }
   }
 
-  get game() {
+  get game(): DerivedGame {
     const state = this.#getState()
 
     const currentPlayer = this.players[state.currentGameMoves.length % 2]
@@ -73,7 +89,7 @@ export default class Store extends EventTarget {
     }
   }
 
-  playerMove(squareId) {
+  playerMove(squareId: number) {
     const stateClone = structuredClone(this.#getState())
 
     stateClone.currentGameMoves.push({
@@ -102,7 +118,7 @@ export default class Store extends EventTarget {
   newRound() {
     this.reset()
 
-    const stateClone = structuredClone(this.#getState())
+    const stateClone = structuredClone(this.#getState()) as GameState
     stateClone.history.allGames.push(...stateClone.history.currentRoundGames)
     stateClone.history.currentRoundGames = []
     this.#saveState(stateClone)
@@ -110,11 +126,11 @@ export default class Store extends EventTarget {
 
   #getState() {
     const item = window.localStorage.getItem(this.storageKey)
-    return item ? JSON.parse(item) : initialValue
+    return item ? JSON.parse(item) as GameState : initialValue
   }
 
-  #saveState(stateOrFn) {
-    const prevState = this.#getState
+  #saveState(stateOrFn: GameState | ((prevState: GameState) => GameState)) {
+    const prevState = this.#getState()
 
     let newState
 

@@ -1,7 +1,8 @@
+import type { Player } from './types'
 import View from './view.js'
 import Store from './store.js'
 
-const players = [
+const players: Player[] = [
   {
     id: 1,
     name: 'Player 1',
@@ -41,7 +42,7 @@ function init() {
     store.newRound()
   })
 
-  view.bindPlayerMoveEvent(square => {
+  view.bindPlayerMoveEvent((square) => {
     const existingMove = store.game.moves.some(move => move.squareId === +square.id)
 
     if (existingMove) { return }
