@@ -29,6 +29,7 @@ function init() {
       store.stats.playerWithStats[1].wins,
       store.stats.ties,
     )
+    view.initializeMoves(store.game.moves)
   }
 
   initView()

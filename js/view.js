@@ -74,6 +74,15 @@ export default class View {
     this.$$.squares.forEach(square => square.replaceChildren())
   }
 
+  initializeMoves(moves) {
+    this.$$.squares.forEach(square => {
+      const existingMove = moves.find(move => move.squareId === +square.id)
+      if (existingMove) {
+        this.handlePlayerMove(square, existingMove.player)
+      }
+    })
+  }
+
   #toggleMenu() {
     this.$.menuItems.classList.toggle('hidden')
     this.$.menuBtn.classList.toggle('border')
