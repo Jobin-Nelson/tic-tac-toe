@@ -14,25 +14,25 @@ To run this project, you will need to have Node.js and npm installed on your mac
 git clone --depth 1 https://github.com/Jobin-Nelson/tic-tac-toe.git
 ```
 
-1. Navigate to the project directory using the command:
+2. Navigate to the project directory using the command:
 
 ```bash
 cd tic-tac-toe-react-typescript
 ```
 
-1. Install the necessary dependencies using npm:
+3. Install the necessary dependencies using npm:
 
 ```bash
 npm install
 ```
 
-1. Build the game:
+4. Build the game:
 
 ```bash
 npm run build:prod
 ```
 
-1. To start the game open the file `public/index.html` in your favourite browser
+5. To start the game open the file `public/index.html` in your favourite browser
 
 
 ## Game Features
