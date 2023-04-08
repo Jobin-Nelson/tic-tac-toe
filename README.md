@@ -52,6 +52,7 @@ npm run build:prod
 ## Credits
 
 This game was built as part of a tutorial on freeCodeCamp, with modifications and improvements by me.
-License
+
+##License
 
 This project is licensed under the MIT license.
